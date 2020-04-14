@@ -54,28 +54,13 @@ esac
 
 PS3=">> "
 
-__my_rvm_ruby_version() {
-    local gemset=$(echo $GEM_HOME | awk -F'@' '{print $2}')
-  [ "$gemset" != "" ] && gemset="@$gemset"
-    local version=$(echo $MY_RUBY_HOME | awk -F'-' '{print $2}')
-    local full="$version$gemset"
-  [ "$full" != "" ] && echo "[$full]"
-}
-
-is_vim_shell() {
-        if [ ! -z "$VIMRUNTIME" ]
-        then
-                echo "[${cyan}vim shell${normal}]"
-        fi
-}
-
 modern_scm_prompt() {
         CHAR=$(scm_char)
         if [ $CHAR = $SCM_NONE_CHAR ]
         then
                 return
         else
-                echo "[$(scm_char)][$GREEN$(scm_prompt_info)]"
+                echo "[$MAGENTA$(scm_prompt_info)]"
         fi
 }
 
@@ -114,10 +99,10 @@ prompt() {
 
     # nice prompt
     case "`id -u`" in
-        0) PS1="\n${TITLEBAR}${BRACKET_COLOR}┌─${normal}$(my_ve)$(chroot)[$my_ps_root][$my_ps_host_root]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${green}\w${normal}]$(is_vim_shell)${BRACKET_COLOR}
+        0) PS1="\n${TITLEBAR}${BRACKET_COLOR}┌─${normal}$(my_ve)$(chroot)[$my_ps_root][$my_ps_host_root][$GREEN\w${normal}]${BRACKET_COLOR}
 └─▪ ${prompt_symbol} ${normal}"
         ;;
-        *) PS1="\n${TITLEBAR}${BRACKET_COLOR}┌─${normal}$(my_ve)$(chroot)[$my_ps_user][$my_ps_host]$(modern_scm_prompt)${normal}$(__my_rvm_ruby_version)[${green}\w${normal}]$(is_vim_shell)${BRACKET_COLOR}
+        *) PS1="\n${TITLEBAR}${BRACKET_COLOR}┌─${normal}$(my_ve)$(chroot)[$my_ps_user][$my_ps_host]${normal}[$GREEN\w${normal}]$(modern_scm_prompt)${BRACKET_COLOR}
 └─▪ ${prompt_symbol} ${normal}"
         ;;
     esac
